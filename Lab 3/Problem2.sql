@@ -15,16 +15,6 @@ CREATE TABLE IF NOT EXISTS EMPLOYEES (
     DEPARTMENTID INT
 );
 
--- INSERT INTO EMPLOYEES
--- VALUES ('123', 'Dinh', 'Ba', 'Tien', '1995-1-9', 'Nam', 30000, '731 Tran Hung Dao Q1 TPHCM'),
--- ('333', 'Nguyen', 'Thanh', 'Tung', '1945-12-8', 'Nam', 40000, '638 Nguyen Van Cu Q5 TPHCM'),
--- ('453', 'Tran', 'Thanh', 'Tam', '1962-7-31', 'Nam', 25000, '543 Mai Thi Luu Ba Dinh Ha Noi'),
--- ('666', 'Nguyen', 'Manh', 'Hung', '1952-9-15', 'Nam', 38000, '975 Le Lai P3 Vung Tau'),
--- ('777', 'Tran', 'Hong', 'Quang', '1959-3-29', 'Nam', 25000, '980 Le Hong Phong Vung Tau'),
--- ('888', 'Vuong', 'Ngoc', 'Quyen', '1931-6-20', 'Nu', 55000, '450 Trung Vuong My Tho TG'),
--- ('987', 'Le', 'Thi', 'Nhan', '1931-6-20', 'Nu', 43000, '291 Ho Van Hue Q.PN TPHCM'),
--- ('999', 'Bui', 'Thuy', 'Vu', '1958-7-19', 'Nam', 25000, '332 Nguyen Thai Hoc Quy Nhon');
-
 insert into employees
 values ('123', 'Dinh', 'Ba', 'Tien', '1995-1-9', 'Nam', 30000, '731 Tran Hung Dao Q1 TPHCM', '333', 5),
 ('333', 'Nguyen', 'Thanh', 'Tung', '1945-12-8', 'Nam', 40000, '638 Nguyen Van Cu Q5 TPHCM', '888', 5),
