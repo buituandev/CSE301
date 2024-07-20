@@ -117,5 +117,3 @@ VALUES ('123', 'Chau', 'Nu', '1978-12-31', 'Con gai'),
 ('333', 'Quang', 'Nu', '1976-4-5', 'Con gai'),
 ('333', 'Tung', 'Nam', '1973-10-25', 'Con trai'),
 ('987', 'Dang', 'Nam', '1932-2-29', 'Vo chong');
-
-SHOW TABLES;
