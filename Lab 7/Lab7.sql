@@ -195,7 +195,7 @@ CALL count_salesman_condition();
 Delimiter $$
 CREATE PROCEDURE total_sale(in salesman_id varchar(15))
 BEGIN
-SELECT salesman.salesman_number, salesman.salesman_name, sum(so.Order_Quantity*p.Sell_Price) as total_sales
+SELECT salesman.salesman_number, salesman.salesman_name, sum(so.Order_Quantity) as total_sales
 from salesman
 join salesorder on salesorder.salesman_number = salesman.salesman_number
 join salesorderdetails so on so.order_number = salesorder.order_number
@@ -205,7 +205,7 @@ GROUP by salesman.salesman_number, salesman.salesman_name;
 END$$
 Delimiter ;
 
-CALL total_sale('S001');
+CALL total_sale('S003');
 -- 23 Create a stored procedure to add a new product:
 -- Input variables: Product_Number, Product_Name, Quantity_On_Hand, Quantity_Sell, Sell_Price,
 -- Cost_Price.
@@ -238,4 +238,41 @@ call add_product('P1009','Ram',100,300,1000.0000,900.0000,25,40,null);
 -- Greater than or equal to 10000: "Large"
 -- Greater than or equal to 5000: "Midium"
 -- Less than 5000: "Small"
+DELIMITER $$
 
+CREATE PROCEDURE calculate_order_value(IN p_Order_Number VARCHAR(10), OUT p_TotalValue DECIMAL(10, 2), OUT p_OrderStatus VARCHAR(10))
+BEGIN
+    DECLARE total DECIMAL(10, 2) DEFAULT 0.00;
+    DECLARE product_price DECIMAL(10, 2);
+    DECLARE order_qty INT;
+    DECLARE done INT DEFAULT 0;
+    DECLARE cur CURSOR FOR
+        SELECT Product.Sell_Price, Salesorderdetails.Order_Quantity
+        FROM Salesorderdetails
+                 JOIN Product ON Salesorderdetails.Product_Number = Product.Product_Number
+        WHERE Salesorderdetails.Order_Number = p_Order_Number;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO product_price, order_qty;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        SET total = total + (product_price * order_qty);
+    END LOOP;
+    CLOSE cur;
+
+    SET p_TotalValue = total;
+
+    CASE
+        WHEN total >= 10000 THEN SET p_OrderStatus = 'Large';
+        WHEN total >= 5000 THEN SET p_OrderStatus = 'Medium';
+        ELSE SET p_OrderStatus = 'Small';
+        END CASE;
+END$$
+
+DELIMITER ;
+
+CALL calculate_order_value('O20006', @total_value, @order_status);
+SELECT @total_value AS TotalValue, @order_status AS OrderStatus;
